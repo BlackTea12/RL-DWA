@@ -102,7 +102,11 @@ class DifferentialDrive2D(gym.Env):
         self.done = False
         self.reward = 0
         # and then get new observation
-        obs = np.array([self.agent_py.vL, self.agent_py.vR], dtype=np.float64)
         
+        norm_lin_vel = (self.agent_py.lin_vel  - (self.agent_py.MAXLIN_VEL - self.agent_py.MINLIN_VEL) * 0.5) / (self.agent_py.MAXLIN_VEL - self.agent_py.MINLIN_VEL)
+        norm_rot_vel = (self.agent_py.rot_vel  - (self.agent_py.MAXROT_VEL - self.agent_py.MINROT_VEL) * 0.5) / (self.agent_py.MAXROT_VEL - self.agent_py.MINROT_VEL)
+        # obs = np.array([self.agent_py.vL, self.agent_py.vR], dtype=np.float64)
+        obs = np.array([norm_lin_vel, norm_rot_vel], dtype=np.float64)
+                
         return obs  # reward, done, info can't be included
         
