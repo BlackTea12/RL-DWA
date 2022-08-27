@@ -399,9 +399,9 @@ class dwa_pygame:
                 # new static position
                 # (bx, by) = (random.uniform(self.PLAYFIELDCORNERS[0], self.PLAYFIELDCORNERS[2]), random.uniform(self.PLAYFIELDCORNERS[1], self.PLAYFIELDCORNERS[3]))
                 # self.targetbarrier = [bx, by]
-                self.ResetBarriers(random.randint(4,15), random.randint(0,1))
+                # self.ResetBarriers(random.randint(4,15), random.randint(0,1))
                 # Reset trail
-                self.locationhistory = []
+                # self.locationhistory = []
                 self.done=True
                 
                 if not self.collision:
@@ -412,6 +412,10 @@ class dwa_pygame:
             self.vR = 2*(self.lin_vel + self.rot_vel *self.W) / (2*self.WHEELR)
         
         def reset_var(self):
+            self.ResetBarriers(random.randint(4,15), random.randint(0,1))
+            # Reset trail
+            self.locationhistory = []
+        
             self.lin_vel = 0
             self.rot_vel = 0
             self.done = False
