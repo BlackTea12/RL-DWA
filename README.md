@@ -17,7 +17,7 @@ Please keep in mind to match the compatible versions of stable-baselines3, tenso
 
 The base idea of creating dynamic window approach **pygame environment** has come from the following link.
 
-In _scripts/dynamic_window_approach_game.py_, you can check the modified code.
+In [_scripts/dynamic_window_approach_game.py_](https://github.com/BlackTea12/RL-DWA/blob/main/scripts/dynamic_window_approach_game.py), you can check the modified code.
 
 The main difference is output control of mobile robot changed from __vr, vl__ (right and left wheel angular speed) to __v, w__ (vehicle linear and angular speed).
 
@@ -28,7 +28,7 @@ In your command prompt (Anaconda Powershell Prompt), execute:
     $ python DWA-learn-main.py
     
 There is an option to see just reward log or other train hyperparmeter, loss included logs.
-If you wish to see details of the training log, go to _scripts/DWA-learn-main.py_ and uncomment line 22 and 28, or just add (if you cannot find):
+If you wish to see details of the training log, go to [_scripts/DWA-learn-main.py_](https://github.com/BlackTea12/RL-DWA/blob/main/scripts/DWA-learn-main.py) and uncomment line 22 and 28, or just add (if you cannot find):
 
 
     c_logger = configure(logdir, ["stdout", "csv", "tensorboard"])
