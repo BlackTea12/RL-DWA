@@ -5,6 +5,8 @@ _Summary: launch testfield dwa, vehicle(Tracer), lidar(rslidar:BPearl)_
 
 to be updated...
 
+point cloud helper library reference [link](https://github.com/mithi/point-cloud-clusters.git)
+
 ### :two: catkin workspace
 
 to be updated...
