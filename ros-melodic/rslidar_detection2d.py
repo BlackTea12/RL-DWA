@@ -1,22 +1,22 @@
 #/usr/bin/python3 
+
 import sys
 import rospy
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import PointCloud
 from sensor_msgs.msg import ChannelFloat32
-from geometry_msgs.msg import Point32
-from geometry_msgs.msg import Point
-from visualization_msgs.msg import Marker
-from visualization_msgs.msg import MarkerArray
-import time
+from geometry_msgs.msg import Point32, Point
+from geometry_msgs.msg import PoseArray, Pose, Quaternion
+# from visualization_msgs.msg import Marker
+# from visualization_msgs.msg import MarkerArray
+# import time
 from sensor_msgs import point_cloud2
-
 import pcl
-
 import numpy as np
+
 # from numpy import cos
 # from numpy import sin
-# import math
+import math
 
 def pcl_to_ros(pcl_array):
     """ Converts a pcl PointXYZRGB to a ROS PointCloud2 message
@@ -94,7 +94,7 @@ def split_cloud(cloud):
 
   # Get only information in our region of interest as we don't care about the other parts
   filtered_cloud = do_passthrough(point_cloud = downsampled_cloud, 
-                                         name_axis = 'z', min_axis = -0.25, max_axis = 1.3)
+                                         name_axis = 'z', min_axis = -0.25, max_axis = 0.25)
 
   # Separate the table from everything else
   table_cloud, objects_cloud = do_ransac_plane_segmentation(filtered_cloud, max_distance = 0.01)
@@ -186,10 +186,12 @@ class lidar_test:
         # self.init_visual()
         rospy.Subscriber("rslidar_points", PointCloud2, self.pointcloudCallback)
 
-        self.visual_pub = rospy.Publisher("visual_publish", Marker, queue_size=1)
+        # self.visual_pub = rospy.Publisher("visual_publish", Marker, queue_size=1)
         # self.pub = rospy.Publisher("point_publish", PointCloud, queue_size=1)
         self.detected_objects_publisher = rospy.Publisher("/detected_objects/point", PointCloud, queue_size=1)
-        self.object_markers_publisher = rospy.Publisher("/detected_objects/Marker", Marker, queue_size=1)
+        # self.object_markers_publisher = rospy.Publisher("/detected_objects/Marker", Marker, queue_size=1)
+        self.pub_obs = rospy.Publisher("/realsense/obstacles", PoseArray, queue_size=1)
+        self.poses = PoseArray()
         rospy.spin()
 
     def init_visual(self):
@@ -348,7 +350,7 @@ class lidar_test:
         # Get groups of indices for each cluster of points
         # Each group of points belongs to the same object
         # This is effectively a list of lists, with each list containing indices of the cloud
-        clusters = get_clusters(colorless_cloud, tolerance = 0.05, min_size = 10, max_size = 3000)
+        clusters = get_clusters(colorless_cloud, tolerance = 0.05, min_size = 10, max_size = 500)
 
         # CLASSIFY THE CLUSTERS 
         detected_objects_labels = []
@@ -357,10 +359,12 @@ class lidar_test:
         get_in = ChannelFloat32()
         get_in.name = 'Bpearl_intensity'
         test.points = []
-        sys.stdout.write('Indices %d\r' % (len(clusters)))
-        sys.stdout.flush()
-        for i, indices in enumerate(clusters):
 
+        # distance and x, y
+        self.poses = PoseArray()
+        for i, indices in enumerate(clusters):
+            Limit_Detection = 3.1 # meters
+            check_qualification = False
             cluster = objects_cloud.extract(indices)
 
             for p in cluster:
@@ -371,10 +375,28 @@ class lidar_test:
                 get_in.values.append(p[3])
                 test.points.append(point_temp)
 
+                tempD = math.sqrt(p[0]**2 + p[1] **2)
+                if tempD < Limit_Detection: # saving for min dist
+                    Limit_Detection = tempD
+                    check_qualification = True
+                    po = Pose()
+                    po.position = Point(p[0], p[1],Limit_Detection)  # x, y, depth
+                    po.orientation = Quaternion(0,0,0,1) # identity
+            
+            if check_qualification:
+                self.poses.poses.append(po)
+
+        sys.stdout.write('OBS Length %d\r' % (len(self.poses.poses)))
+        sys.stdout.flush()
+
         test.channels.append(get_in)
         test.header.frame_id = 'rslidar'
         test.header.stamp = rospy.Time.now()
         self.detected_objects_publisher.publish(test)
+
+        self.poses.header.frame_id = '/realsense/obstacles'
+        self.poses.header.stamp = rospy.Time.now()
+        self.pub_obs.publish(self.poses)
 
 if __name__ == "__main__":
     lidar_test()
