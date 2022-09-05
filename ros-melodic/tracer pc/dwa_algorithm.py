@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Dynamic Window Approach (Local Planning)
+# For Tracer with Lidar
+# Yaeohn Kim 2022 September
+
 from geometry_msgs.msg import PoseArray, Pose, Quaternion, Point
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64MultiArray

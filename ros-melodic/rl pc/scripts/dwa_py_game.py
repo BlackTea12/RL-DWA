@@ -1,6 +1,5 @@
 # Dynamic Window Approach (Local Planning) with moving obstacles
-# For Training
-# Yaeohn Kim 2022
+# Yaeohn Kim 2022 September
 
 import math, time, random
 # import pygame, math, time, random

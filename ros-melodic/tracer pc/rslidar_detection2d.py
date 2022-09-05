@@ -1,5 +1,8 @@
 #/usr/bin/python3 
 
+# Simple Lidar Detection
+# Yaeohn Kim 2022 September
+
 import sys
 import rospy
 from sensor_msgs.msg import PointCloud2

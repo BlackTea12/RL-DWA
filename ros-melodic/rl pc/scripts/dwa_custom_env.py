@@ -1,3 +1,6 @@
+# Dynamic Window Approach (Local Planning) with moving obstacles
+# Yaeohn Kim 2022 September
+
 import numpy as np
 import gym
 from gym import spaces

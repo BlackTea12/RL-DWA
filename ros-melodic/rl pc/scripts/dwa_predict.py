@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Dynamic Window Approach (Local Planning) with moving obstacles
+# For Pretrained Model Prediction
+# Yaeohn Kim 2022 September
+
 from std_msgs.msg import Float64MultiArray
 from nav_msgs.msg import Odometry
 from stable_baselines3 import PPO

@@ -1,3 +1,7 @@
+# Dynamic Window Approach (Local Planning) with moving obstacles
+# For Training
+# Yaeohn Kim 2022 September
+
 from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure
 import os
