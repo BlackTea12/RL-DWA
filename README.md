@@ -28,7 +28,7 @@ In your command prompt (Anaconda Powershell Prompt), execute:
     $ python DWA-learn-main.py
     
 There is an option to see just reward log or other train hyperparmeter, loss included logs.
-If you wish to see details of the training log, go to [_scripts/DWA-learn-main.py_](https://github.com/BlackTea12/RL-DWA/blob/main/scripts/DWA-learn-main.py) and uncomment line 22 and 28, or just add (if you cannot find):
+If you wish to see details of the training log, go to [_scripts/DWA_learn_main.py_](https://github.com/BlackTea12/RL-DWA/blob/main/scripts/DWA_learn_main.py) and uncomment line 22 and 28, or just add (if you cannot find):
 
 
     c_logger = configure(logdir, ["stdout", "csv", "tensorboard"])
