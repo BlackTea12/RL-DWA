@@ -2,7 +2,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure
 import os
 import time
-from DWA-custom-env import DifferentialDrive2D
+from DWA_custom_env import DifferentialDrive2D
 import csv
 
 save_csv = True

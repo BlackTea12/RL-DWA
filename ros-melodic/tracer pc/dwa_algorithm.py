@@ -2,6 +2,7 @@
 
 from geometry_msgs.msg import PoseArray, Pose, Quaternion, Point
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Float64MultiArray
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 import sys
@@ -45,16 +46,18 @@ class ros_dwa:
         self.rot_vel = 0
         self.emergency_stop = False  # safety ensurance
         self.pathstodraw = []
+
         # -------------------- ROS related parameters -------------------- #
         self.node_name = "dwa_original"
         self.marker = Marker()
         self.marker.header.frame_id = "/dwa_path"
         self.marker.type = self.marker.POINTS
         self.marker.action = self.marker.ADD
-
+        self.adaptive_param = [0.0, 0.0, 0.0, 1.0] # head, dist, vel, N_predict
         rospy.init_node(self.node_name)
 
         rospy.Subscriber("/realsense/obstacles", PoseArray, self.obsFetchCallback)
+        rospy.Subscriber("/apl_param", Float64MultiArray, self.apldwaCallback)
 
         self.pub_cmd = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         self.pub_visual_path = rospy.Publisher("/dwa_pathdraw", Marker, queue_size=1)
@@ -307,6 +310,14 @@ class ros_dwa:
             print(e)
             return
 
+    def apldwaCallback(self, params):
+        try:
+            if len(params.data) != 0:
+                self.apl_param = [params.data[0], params.data[1], params.data[2], params.data[3]]
+            pass
+        except Exception as e:
+            print(e)
+            return
 
         
            
