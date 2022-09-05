@@ -308,7 +308,8 @@ class ros_dwa:
             # print(self.barriers)
             sys.stdout.write('Command lin: %.3f, rot: %.3f\r' % (self.lin_vel, self.rot_vel))
             sys.stdout.flush()
-            self.main_loop()
+            # self.main_loop()
+            self.main_loop(HEADWEIGHT = self.apl_param[0], OBSDWEIGHT = self.apl_param[1], N_PREDICT = self.apl_param[3], VELWEIGHT=self.apl_param[2])
             return
         except Exception as e:
             print(e)
