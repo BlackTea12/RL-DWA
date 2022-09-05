@@ -39,4 +39,5 @@ While training, you can check by executing:
     $ tensorboard --logdir=logs   # simple logs
     $ tensorboard --logdir=${your saved log directory name}   # detail logs
     
-
+## :trolleybus:Algorithm Application in Real World Mobile Robot
+Check detailed information in the following link **[HERE](https://github.com/BlackTea12/RL-DWA/tree/main/ros-melodic)**.
