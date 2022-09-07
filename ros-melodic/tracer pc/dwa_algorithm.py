@@ -309,7 +309,7 @@ class ros_dwa:
             sys.stdout.write('Command lin: %.3f, rot: %.3f\r' % (self.lin_vel, self.rot_vel))
             sys.stdout.flush()
             # self.main_loop()
-            self.main_loop(HEADWEIGHT = self.apl_param[0], OBSDWEIGHT = self.apl_param[1], N_PREDICT = self.apl_param[3], VELWEIGHT=self.apl_param[2])
+            self.main_loop(HEADWEIGHT = self.adaptive_param[0], OBSDWEIGHT = self.adaptive_param[1], N_PREDICT = self.adaptive_param[3], VELWEIGHT=self.adaptive_param[2])
             return
         except Exception as e:
             print(e)
@@ -318,7 +318,7 @@ class ros_dwa:
     def apldwaCallback(self, params):
         try:
             if len(params.data) != 0:
-                self.apl_param = [params.data[0], params.data[1], params.data[2], params.data[3]]
+                self.adaptive_param = [params.data[0], params.data[1], params.data[2], params.data[3]]
             pass
         except Exception as e:
             print(e)
