@@ -1,8 +1,6 @@
 # RL-DWA
 _Summary: Using stable-baselines3 'PPO' reinforcement learning algorithm to train dynamic window approach_
 
-_2023ICRA submitted..._
-
 ## :bulb:Installation and Description
 
 ### :one: Stable-Baselines3  [[:link:LINK](https://stable-baselines3.readthedocs.io/en/master/)]
